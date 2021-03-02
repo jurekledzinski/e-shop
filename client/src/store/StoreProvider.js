@@ -43,6 +43,7 @@ const StoreProvider = ({ children }) => {
   const [drawIcon, setDrawIcon] = useState(false);
   const [errorServerMsg, setErrorServerMsg] = useState({});
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isClickLogin, setisClickLogin] = useState(false);
   const [isloadFirstTimePage, setIsloadFirstTimePage] = useState(false);
   const [isOwnAdverts, setIsOwnAdverts] = useState(false);
   const [isTurnOnRegisterLogin, setIsTurnOnRegisterLogin] = useState(false);
@@ -346,6 +347,7 @@ const StoreProvider = ({ children }) => {
         courses,
         drawIcon,
         isAdmin,
+        isClickLogin,
         isloadFirstTimePage,
         isOwnAdverts,
         idUser,
@@ -378,6 +380,7 @@ const StoreProvider = ({ children }) => {
         setDrawIcon,
         setFlag,
         setIsAdmin,
+        setisClickLogin,
         setIsloadFirstTimePage,
         setIsOwnAdverts,
         setCheckerPayment,

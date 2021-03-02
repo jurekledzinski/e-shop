@@ -15,7 +15,7 @@ const ProtectedRouteAdmin = ({ path, roles, component: Component }) => {
           return <Redirect to="/" />;
         }
         if (roles && roles.indexOf(user.role) === -1) {
-          return <Redirect to="" />;
+          return <Redirect to="/" />;
         }
         return <Component {...props} />;
       }}

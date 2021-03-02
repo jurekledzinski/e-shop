@@ -32,6 +32,7 @@ const Slider = ({ location }) => {
   const idInterval = useRef(null);
   const isMounted = useRef(null);
   const slidesContainer = useRef(null);
+  const [scrollDiff, setScrollDiff] = useState(0);
 
   const events = {
     swipeUp: new Event("swipeUp"),
@@ -335,6 +336,10 @@ const Slider = ({ location }) => {
     const diffrenceX = initialX - currenTouchX;
     const diffrenceY = initialY - currenTouchY;
 
+    console.log(diffrenceY);
+
+    setScrollDiff(diffrenceY);
+
     if (Math.abs(diffrenceX) > Math.abs(diffrenceY)) {
       if (diffrenceX > 0) {
         slidesContainer.current.dispatchEvent(events.swipeLeft);
@@ -375,6 +380,22 @@ const Slider = ({ location }) => {
     slidesContainer.current.addEventListener("swipeRight", () =>
       handleRightMove()
     );
+    slidesContainer.current.addEventListener("swipeUp", () => {
+      console.log("Up");
+      window.scrollTo({
+        top: scrollDiff,
+        left: 0,
+        behavior: "smooth",
+      });
+    });
+    slidesContainer.current.addEventListener("swipeDown", () => {
+      console.log("Down");
+      window.scrollTo({
+        top: scrollDiff,
+        left: 0,
+        behavior: "smooth",
+      });
+    });
   }, []);
 
   useEffect(() => {

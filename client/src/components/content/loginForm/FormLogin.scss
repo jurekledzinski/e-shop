@@ -55,6 +55,11 @@
 
   @media (orientation: landscape) and (max-width: 667px) {
     top: 55%;
+    width: 60%;
+  }
+
+  @media (orientation: landscape) and (medium) {
+    top: 55%;
     width: 100%;
   }
 
@@ -318,7 +323,7 @@
 
   &__not-register {
     margin-top: 40px;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
 
     @media screen and (device-width: 240px) and (device-height: 320px) and (-webkit-device-pixel-ratio: 1) and (orientation: portrait) {
       text-align: center;

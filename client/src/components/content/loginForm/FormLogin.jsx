@@ -31,6 +31,7 @@ const FormLogin = ({ handleClose, isModalOpen }) => {
   const {
     adjustValidationMsg,
     isTurnOnRegisterLogin,
+    setisClickLogin,
     setIsAdmin,
     setUser,
     setValidationMsg,
@@ -75,6 +76,7 @@ const FormLogin = ({ handleClose, isModalOpen }) => {
         setTimeout(() => {
           adjustValidationMsg("");
           setValidationMsg("");
+          setisClickLogin(false);
           isUrlLogin ? null : handleClose();
         }, 1500);
     }
@@ -119,6 +121,8 @@ const FormLogin = ({ handleClose, isModalOpen }) => {
         totalQtyCart: totalQtyCart,
         totalPriceCart: totalPriceCart,
       };
+
+      setisClickLogin(true);
 
       cart.length > 0 &&
         isUserLoggedFromProceedCheckoout &&

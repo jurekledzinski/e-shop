@@ -64,7 +64,7 @@ app.disable("x-powered-by");
 app.use(
   cors({
     credentials: true,
-    origin: "https://calm-dusk-64313.herokuapp.com",
+    origin: "http://localhost:3000",
   })
 );
 app.use(express.json());

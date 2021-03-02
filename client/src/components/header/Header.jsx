@@ -72,7 +72,7 @@ const Header = ({ location }) => {
   };
 
   const redirectToHomePage = () => {
-    // history.push("/");
+    history.push("/");
   };
 
   const handleModal = () => {
@@ -153,7 +153,7 @@ const Header = ({ location }) => {
         break;
       case false:
         if (!isModalOpen && urlLogIn && !Boolean(user)) {
-          //   history.push("/");
+          history.push("/");
           setTimeout(() => {
             setisModalOpen(true);
             setchooseModal(true);
@@ -178,6 +178,7 @@ const Header = ({ location }) => {
 
   useEffect(() => {
     const isLoginUrl = history.location.pathname;
+
     if (Boolean(user)) {
       setisModalOpen(false);
     }
