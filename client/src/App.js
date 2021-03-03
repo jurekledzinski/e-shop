@@ -47,11 +47,11 @@ const App = () => {
 
   return (
     <div className="app-container">
-      <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <StoreProvider>
-          <CartProvider>
-            <InventoryProvider>
-              <Router>
+      <Router>
+        <ErrorBoundary FallbackComponent={ErrorFallback}>
+          <StoreProvider>
+            <CartProvider>
+              <InventoryProvider>
                 <ErrorHandler>
                   {checkWhichMenu ? <MobileMenu /> : <AsideMobileMenu />}
                   <div
@@ -67,11 +67,11 @@ const App = () => {
                     <Footer />
                   </div>
                 </ErrorHandler>
-              </Router>
-            </InventoryProvider>
-          </CartProvider>
-        </StoreProvider>
-      </ErrorBoundary>
+              </InventoryProvider>
+            </CartProvider>
+          </StoreProvider>
+        </ErrorBoundary>
+      </Router>
     </div>
   );
 };

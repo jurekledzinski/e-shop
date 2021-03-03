@@ -1,3 +1,5 @@
+@import "../../../scss-variables/scss-variables.scss";
+
 .button-go-back {
   margin-bottom: 20px;
   border: none;
@@ -5,4 +7,8 @@
   font-size: 1.6rem;
   outline: none;
   cursor: pointer;
+
+  @include media-queries(xsmall) {
+    margin-left: 10px;
+  }
 }

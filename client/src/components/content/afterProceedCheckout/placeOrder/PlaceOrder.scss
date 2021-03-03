@@ -14,6 +14,7 @@
 
   @include media-queries(extraMedia7) {
     width: 100%;
+    margin: 20px 0;
   }
 
   &:hover {
@@ -129,6 +130,10 @@ section {
         padding: 0;
         margin-top: 10px;
         text-align: center;
+      }
+
+      @include media-queries(medium) {
+        font-size: 1.4rem;
       }
 
       @include media-queries(extraMedia6) {

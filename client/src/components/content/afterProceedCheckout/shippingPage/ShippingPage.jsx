@@ -106,6 +106,7 @@ const ShippingPage = ({ location }) => {
       setActiveLineStepCheckout("lineShipping");
       setNameCheckers("shippingChecker");
       setCustomerDetails([data]);
+      window.scrollTo({ top: 0, behavior: "smooth" });
       history.push("/payment");
     } else {
       adjustValidationMsg(data.alert);

@@ -21,6 +21,10 @@
   &__details-summary {
     padding: 10px 20px;
     margin-top: 55px;
+
+    @include media-queries(extraMedia7) {
+      margin-top: 20px;
+    }
   }
 
   &__subtotal {

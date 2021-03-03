@@ -1,10 +1,15 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 
 import "./TermsPolicyShop.scss";
 
+import ButtonGoBack from "../../others/buttonGoBack/ButtonGoBack";
+
 const TermsPolicyShop = () => {
+  const history = useHistory();
   return (
     <section>
+      <ButtonGoBack history={history} />
       <div className="terms-shop">
         <h2 className="terms-shop__title">
           <strong className="terms-shop__title-strong">

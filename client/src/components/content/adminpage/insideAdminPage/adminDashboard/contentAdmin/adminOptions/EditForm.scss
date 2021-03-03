@@ -217,6 +217,10 @@
     text-transform: uppercase;
     font-family: $font-family-modal-forms-buttons-inputs-labels;
 
+    @include media-queries(large) {
+      margin: 50px 0 10px;
+    }
+
     &:hover {
       background-color: #036ac4;
       letter-spacing: 3px;
