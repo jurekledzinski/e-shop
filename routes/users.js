@@ -1,11 +1,12 @@
 const express = require("express");
 const router = express.Router();
 
+const { roleAdmin } = require("../configs/config");
 const Person = require("../models/registration.model");
 
 const { ErrorHandler } = require("../errors/error");
 
-router.get("/", (req, res, next) => {
+router.get("/", isLoggedInAdmin, (req, res, next) => {
   Person.find({})
     .select("-password")
     .then((response) => {
@@ -20,7 +21,7 @@ router.get("/", (req, res, next) => {
     });
 });
 
-router.delete("/delete/:id", (req, res, next) => {
+router.delete("/delete/:id", isLoggedInAdmin, (req, res, next) => {
   const id = req.params.id;
 
   const info1 = {
@@ -49,3 +50,16 @@ router.delete("/delete/:id", (req, res, next) => {
 });
 
 module.exports = router;
+
+function isLoggedInAdmin(req, res, next) {
+  if (req.isAuthenticated()) {
+    const userRole = req.session.person.role;
+    if (userRole === roleAdmin) {
+      return next();
+    } else {
+      res.redirect("/");
+    }
+  } else {
+    res.redirect("/");
+  }
+}

@@ -5,7 +5,7 @@ const PaidOrder = require("../models/paidOrder.model");
 
 const { ErrorHandler } = require("../errors/error");
 
-router.get("/", (req, res, next) => {
+router.get("/", isLoggedIn, (req, res, next) => {
   PaidOrder.find({})
     .then((response) => {
       return res.status(200).json(response);
@@ -17,7 +17,7 @@ router.get("/", (req, res, next) => {
     });
 });
 
-router.get("/:id", (req, res, next) => {
+router.get("/:id", isLoggedIn, (req, res, next) => {
   const id = req.params.id;
 
   PaidOrder.find({ userId: id })
@@ -31,7 +31,7 @@ router.get("/:id", (req, res, next) => {
     });
 });
 
-router.post("/", (req, res, next) => {
+router.post("/", isLoggedIn, (req, res, next) => {
   const {
     cart,
     city,
@@ -138,7 +138,7 @@ router.post("/", (req, res, next) => {
   }
 });
 
-router.put("/", (req, res, next) => {
+router.put("/", isLoggedIn, (req, res, next) => {
   const {
     dateDelivery,
     dateShipping,
@@ -182,3 +182,10 @@ router.delete("/:id", (req, res) => {
 });
 
 module.exports = router;
+
+function isLoggedIn(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.redirect("/");
+}

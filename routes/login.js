@@ -6,7 +6,7 @@ const { ErrorHandler } = require("../errors/error");
 
 const { sessionizeUser } = require("../utils/helpers");
 
-router.post("/", (req, res, next) => {
+router.post("/", notLoggedIn, (req, res, next) => {
   const { email, password } = req.body;
 
   let info = {
@@ -51,3 +51,15 @@ router.post("/", (req, res, next) => {
 });
 
 module.exports = router;
+
+function notLoggedIn(req, res, next) {
+  let info = {
+    alert: "You are already logged in",
+  };
+  if (!req.isAuthenticated()) {
+    return next();
+  } else {
+    return res.status(400).json(info);
+  }
+  res.redirect("/");
+}

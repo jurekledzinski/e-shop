@@ -13,7 +13,7 @@ router.get("/", ({ session: { person } }, res) => {
   }
 });
 
-router.delete("/logout", ({ session }, res, next) => {
+router.delete("/logout", isLoggedIn, ({ session }, res, next) => {
   const { person } = session;
   if (person) {
     session.destroy((err) => {
@@ -27,3 +27,10 @@ router.delete("/logout", ({ session }, res, next) => {
 });
 
 module.exports = router;
+
+function isLoggedIn(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.redirect("/");
+}

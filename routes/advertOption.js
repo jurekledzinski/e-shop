@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
+const { roleAdmin } = require("../configs/config");
 const AdvertOption = require("../models/advertOption.modal");
 
 const { ErrorHandler } = require("../errors/error");
@@ -15,7 +16,7 @@ router.get("/", (req, res, next) => {
     });
 });
 
-router.put("/", (req, res, next) => {
+router.put("/", isLoggedInAdmin, (req, res, next) => {
   const { option, userId } = req.body;
 
   const info2 = {
@@ -60,3 +61,16 @@ router.put("/", (req, res, next) => {
 });
 
 module.exports = router;
+
+function isLoggedInAdmin(req, res, next) {
+  if (req.isAuthenticated()) {
+    const userRole = req.session.person.role;
+    if (userRole === roleAdmin) {
+      return next();
+    } else {
+      res.redirect("/");
+    }
+  } else {
+    res.redirect("/");
+  }
+}

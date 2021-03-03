@@ -5,7 +5,7 @@ const OrderDetail = require("../models/orderDetails.model.js");
 
 const { ErrorHandler } = require("../errors/error");
 
-router.put("/", (req, res, next) => {
+router.put("/", isLoggedIn, (req, res, next) => {
   const {
     name,
     surname,
@@ -129,7 +129,7 @@ router.put("/", (req, res, next) => {
   }
 });
 
-router.get("/:id", (req, res, next) => {
+router.get("/:id", isLoggedIn, (req, res, next) => {
   const id = req.params.id;
 
   OrderDetail.findOne({ userId: id })
@@ -144,3 +144,10 @@ router.get("/:id", (req, res, next) => {
 });
 
 module.exports = router;
+
+function isLoggedIn(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.redirect("/");
+}

@@ -6,7 +6,7 @@ const Person = require("../models/registration.model");
 
 const { ErrorHandler } = require("../errors/error");
 
-router.put("/", (req, res, next) => {
+router.put("/", isLoggedIn, (req, res, next) => {
   const { name, email, password, confirmPassword, userId } = req.body;
 
   const info = {
@@ -78,3 +78,10 @@ router.put("/", (req, res, next) => {
 });
 
 module.exports = router;
+
+function isLoggedIn(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.redirect("/");
+}

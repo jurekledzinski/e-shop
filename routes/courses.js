@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
+const { roleAdmin } = require("../configs/config");
 const Course = require("../models/course.model");
 
 const { ErrorHandler } = require("../errors/error");
@@ -17,7 +18,7 @@ router.get("/", (req, res, next) => {
     });
 });
 
-router.post("/add-new", (req, res, next) => {
+router.post("/add-new", isLoggedInAdmin, (req, res, next) => {
   const {
     titleCourse,
     imagePath,
@@ -97,7 +98,7 @@ router.post("/add-new", (req, res, next) => {
   }
 });
 
-router.put("/update/:id", (req, res, next) => {
+router.put("/update/:id", isLoggedIn, (req, res, next) => {
   const id = req.params.id;
 
   const {
@@ -145,7 +146,7 @@ router.put("/update/:id", (req, res, next) => {
     });
 });
 
-router.put("/update-courses", (req, res, next) => {
+router.put("/update-courses", isLoggedIn, (req, res, next) => {
   const { _id, amount } = req.body;
 
   Course.findOneAndUpdate(
@@ -169,7 +170,7 @@ router.put("/update-courses", (req, res, next) => {
     });
 });
 
-router.delete("/delete/:id", (req, res, next) => {
+router.delete("/delete/:id", isLoggedInAdmin, (req, res, next) => {
   const id = req.params.id;
 
   Course.findByIdAndDelete({ _id: id })
@@ -187,3 +188,23 @@ router.delete("/delete/:id", (req, res, next) => {
 });
 
 module.exports = router;
+
+function isLoggedInAdmin(req, res, next) {
+  if (req.isAuthenticated()) {
+    const userRole = req.session.person.role;
+    if (userRole === roleAdmin) {
+      return next();
+    } else {
+      res.redirect("/");
+    }
+  } else {
+    res.redirect("/");
+  }
+}
+
+function isLoggedIn(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.redirect("/");
+}

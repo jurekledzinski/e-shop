@@ -5,7 +5,7 @@ const Cart = require("../models/cart.model");
 
 const { ErrorHandler } = require("../errors/error");
 
-router.put("/", (req, res, next) => {
+router.put("/", isLoggedIn, (req, res, next) => {
   const { userId, cart, totalQtyCart, totalPriceCart } = req.body;
   console.log(req, " Cart request backend");
   console.log(req.body, " Cart req.body backend");
@@ -59,7 +59,7 @@ router.put("/", (req, res, next) => {
   }
 });
 
-router.get("/:id", (req, res, next) => {
+router.get("/:id", isLoggedIn, (req, res, next) => {
   const id = req.params.id;
   Cart.findOne({ userId: id }, (err, data) => {
     if (err) {
@@ -69,7 +69,7 @@ router.get("/:id", (req, res, next) => {
   });
 });
 
-router.delete("/delete/:id", (req, res, next) => {
+router.delete("/delete/:id", isLoggedIn, (req, res, next) => {
   const id = req.params.id;
 
   Cart.findOneAndDelete({ userId: id })
@@ -84,3 +84,10 @@ router.delete("/delete/:id", (req, res, next) => {
 });
 
 module.exports = router;
+
+function isLoggedIn(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.redirect("/");
+}

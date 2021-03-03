@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
+const { roleAdmin } = require("../configs/config");
 const Advertise = require("../models/advertiseSlider.model");
 
 const { ErrorHandler } = require("../errors/error");
@@ -15,7 +16,7 @@ router.get("/", (req, res, next) => {
     });
 });
 
-router.post("/", (req, res, next) => {
+router.post("/", isLoggedInAdmin, (req, res, next) => {
   const {
     colorDescription,
     colorTitle,
@@ -52,7 +53,7 @@ router.post("/", (req, res, next) => {
     });
 });
 
-router.delete("/:id", (req, res, next) => {
+router.delete("/:id", isLoggedInAdmin, (req, res, next) => {
   const id = req.params.id;
 
   const info1 = {
@@ -72,3 +73,16 @@ router.delete("/:id", (req, res, next) => {
 });
 
 module.exports = router;
+
+function isLoggedInAdmin(req, res, next) {
+  if (req.isAuthenticated()) {
+    const userRole = req.session.person.role;
+    if (userRole === roleAdmin) {
+      return next();
+    } else {
+      res.redirect("/");
+    }
+  } else {
+    res.redirect("/");
+  }
+}

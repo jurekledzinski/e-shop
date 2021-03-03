@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
+const { roleAdmin } = require("../configs/config");
 const Comment = require("../models/commentProduct.model");
 
 const { ErrorHandler } = require("../errors/error");
@@ -21,7 +22,7 @@ router.get("/:id", (req, res, next) => {
     });
 });
 
-router.post("/", (req, res, next) => {
+router.post("/", isLoggedIn, (req, res, next) => {
   const {
     comment,
     date,
@@ -89,7 +90,7 @@ router.post("/", (req, res, next) => {
   }
 });
 
-router.delete("/:id", (req, res, next) => {
+router.delete("/:id", isLoggedInAdmin, (req, res, next) => {
   const id = req.params.id;
 
   Comment.deleteMany({ idCourse: id })
@@ -104,3 +105,23 @@ router.delete("/:id", (req, res, next) => {
 });
 
 module.exports = router;
+
+function isLoggedIn(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.redirect("/");
+}
+
+function isLoggedInAdmin(req, res, next) {
+  if (req.isAuthenticated()) {
+    const userRole = req.session.person.role;
+    if (userRole === roleAdmin) {
+      return next();
+    } else {
+      res.redirect("/");
+    }
+  } else {
+    res.redirect("/");
+  }
+}
