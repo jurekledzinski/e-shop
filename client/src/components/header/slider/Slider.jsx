@@ -33,6 +33,7 @@ const Slider = ({ location }) => {
   const isMounted = useRef(null);
   const slidesContainer = useRef(null);
   const [scrollDiff, setScrollDiff] = useState(0);
+  const [heightSizeSlider, setHeighSizetSlider] = useState(0);
 
   const events = {
     swipeUp: new Event("swipeUp"),
@@ -237,6 +238,8 @@ const Slider = ({ location }) => {
     const heightInnerWindow = window.innerHeight;
     const ratio = Math.min(widthInnerWindow / heightInnerWindow);
 
+    setHeighSizetSlider(slidesContainer.current.offsetHeight);
+
     const sizePrecent = (1200 * 100) / window.innerWidth;
     setWidthSlider(sizePrecent + "%");
     SetVisibilityArrows(true);
@@ -336,8 +339,6 @@ const Slider = ({ location }) => {
     const diffrenceX = initialX - currenTouchX;
     const diffrenceY = initialY - currenTouchY;
 
-    console.log(diffrenceY);
-
     setScrollDiff(diffrenceY);
 
     if (Math.abs(diffrenceX) > Math.abs(diffrenceY)) {
@@ -374,28 +375,35 @@ const Slider = ({ location }) => {
   }, [initialX, initialY]);
 
   useEffect(() => {
+    slidesContainer.current.addEventListener("swipeUp", () => {
+      if (window.innerWidth > 767) {
+        window.scrollTo({
+          top: heightSizeSlider + 20,
+          behavior: "smooth",
+        });
+      } else {
+        window.scrollTo({
+          top: heightSizeSlider,
+          behavior: "smooth",
+        });
+      }
+    });
+
+    slidesContainer.current.addEventListener("swipeDown", () => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    });
+  }, [scrollDiff, window.innerWidth]);
+
+  useEffect(() => {
     slidesContainer.current.addEventListener("swipeLeft", () =>
       handleLeftMove()
     );
     slidesContainer.current.addEventListener("swipeRight", () =>
       handleRightMove()
     );
-    slidesContainer.current.addEventListener("swipeUp", () => {
-      console.log("Up");
-      window.scrollTo({
-        top: scrollDiff,
-        left: 0,
-        behavior: "smooth",
-      });
-    });
-    slidesContainer.current.addEventListener("swipeDown", () => {
-      console.log("Down");
-      window.scrollTo({
-        top: scrollDiff,
-        left: 0,
-        behavior: "smooth",
-      });
-    });
   }, []);
 
   useEffect(() => {
